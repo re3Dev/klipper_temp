@@ -131,42 +131,22 @@ if shape_titles:
 
 x = []
 extruder_temp = []
+extruder1_temp = []
 bed_temp = []
-
-# Cumulative moving average
-# https://github.com/KevinOConnor/klipper/commit/b0ee323e2e01ba2084bea8de733f16474f1167eb
-extruder_temp_smoothed = []
-smooth_time = 2.0
-inv_smooth_time = 1. / smooth_time
-last_temp_time = 0
-smoothed_temp = 0
-#extruder_temp_cma = []
-#cma = 0
 
 for obj in objs:
         x.append(datetime.fromtimestamp(obj['time']))
         if 'extruder_temp' in obj:
                 extruder_temp.append(obj['extruder_temp'])
+        if 'extruder1_temp' in obj:
+                extruder_temp1.append(obj['extruder_temp1'])
 
-                temp = obj['extruder_temp']
-                read_time = obj['time']
-                # https://github.com/KevinOConnor/klipper/commit/b0ee323e2e01ba2084bea8de733f16474f1167eb
-                time_diff = read_time - last_temp_time
-                last_temp = temp
-                last_temp_time = read_time
-                temp_diff = temp - smoothed_temp
-                adj_time = min(time_diff * inv_smooth_time, 1.)
-                smoothed_temp += temp_diff * adj_time
-                extruder_temp_smoothed.append(smoothed_temp)
-
-                #cma = (temp + (smooth_time-1)*cma) / (smooth_time)
-                #extruder_temp_cma.append(cma)
         if 'heater_bed_temp' in obj:
                 bed_temp.append(obj['heater_bed_temp'])
 if extruder_temp:
-        data.append(go.Scatter(x=x, y=extruder_temp, name='Extruder'))
-if extruder_temp_smoothed:
-        data.append(go.Scatter(x=x, y=extruder_temp_smoothed, name='Extruder smoothed'))
+        data.append(go.Scatter(x=x, y=extruder_temp, name='Extruder0'))
+if extruder1_temp:
+        data.append(go.Scatter(x=x, y=extruder1_temp, name='Extruder1'))
 #if extruder_temp_cma:
 #       data.append(go.Scatter(x=x, y=extruder_temp_cma, name='Extruder CMA'))
 if bed_temp:
