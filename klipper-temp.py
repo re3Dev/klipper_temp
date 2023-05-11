@@ -139,7 +139,7 @@ for obj in objs:
         if 'extruder_temp' in obj:
                 extruder_temp.append(obj['extruder_temp'])
         if 'extruder1_temp' in obj:
-                extruder_temp1.append(obj['extruder_temp1'])
+                extruder1_temp.append(obj['extruder1_temp'])
 
         if 'heater_bed_temp' in obj:
                 bed_temp.append(obj['heater_bed_temp'])
